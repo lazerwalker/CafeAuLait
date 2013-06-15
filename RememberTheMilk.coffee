@@ -1,16 +1,10 @@
 md5 = require 'md5'
 request = require 'request'
-
-Object::asQueryString = ->
-  paramStrings = []
-  for key, value of @
-    if typeof value isnt 'function'
-      paramStrings.push("#{key}=#{value}")
-  paramString = "?" + paramStrings.join("&")
-  paramString
+querystring = require 'querystring'
 
 module.exports = class RememberTheMilk
-  baseUrl: "http://www.rememberthemilk.com/services"
+  authUrl: "http://www.rememberthemilk.com/services/auth/?"
+  restUrl: "http://www.rememberthemilk.com/services/rest/?"
 
   constructor: (@apiKey, @sharedSecret) ->
 
@@ -23,13 +17,27 @@ module.exports = class RememberTheMilk
     string = "#{@sharedSecret}#{string}"
     md5.digest_s(string)
 
-  signRequest: (params) ->
+  signRequest: (params={}) ->
+    params["api_key"] = @apiKey
+    params["format"] = 'json'
     params["api_sig"] = @apiSig(params)
     params
 
   getAuthUrl: ->
-    params = @signRequest
-      api_key: @apiKey
-      perms: "delete"
 
-    "#{@baseUrl}/auth/#{params.asQueryString()}"
+    @getFrob (frob) =>
+      params = @signRequest
+        perms: "delete"
+        frob: frob
+
+      "#{@authUrl}#{querystring.stringify(params)}"
+
+  getFrob: (callback) ->
+    params = @signRequest
+      method: "rtm.auth.getFrob"
+    request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) ->
+      if err
+        callback?(undefined, err)
+      else
+        frob = response?.rsp?.frob
+        callback?(frob)
