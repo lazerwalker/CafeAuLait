@@ -3,32 +3,22 @@ RememberTheMilk = require('../RememberTheMilk')
 
 describe "RememberTheMilk", ->
   beforeEach ->
-    @rtm = new RememberTheMilk()
+    @api = 'api'
+    @secret = 'secret'
+    @rtm = new RememberTheMilk(@api, @secret)
 
   describe "Constructor", ->
     it 'Sets the API key and Secret Key', ->
-      api = 'foo'
-      secret = 'bar'
-      @rtm = new RememberTheMilk(api, secret)
+      expect(@rtm.apiKey).toEqual(@api)
+      expect(@rtm.sharedSecret).toEqual(@secret)
 
-      expect(@rtm.apiKey).toEqual(api)
-      expect(@rtm.sharedSecret).toEqual(secret)
+  describe "getAuthUrl", ->
+    it 'should return a valid auth URL', ->
+      api_sig = @rtm.apiSig
+        api_key: @api
+        perms: 'delete'
 
-  describe "signRequest", ->
-    describe "when param keys are not in alphabetical order", ->
-      it "should produce the proper hash", ->
-        params =
-          c: 'c'
-          a: 'a'
-          b: 'b'
-        secret = 'secret'
-
-        md5 = horaa('md5')
-        md5.hijack 'digest_s', (string) ->
-          expect(string).toEqual("aabbccsecret")
-
-        @rtm = new RememberTheMilk('', secret)
-        @rtm.signRequest(params)
+      expect(@rtm.getAuthUrl()).toEqual("http://www.rememberthemilk.com/services/auth/?api_key=api&perms=delete&api_sig=#{api_sig}")
 
 
 
