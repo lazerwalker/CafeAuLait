@@ -24,7 +24,8 @@ describe "RememberTheMilk", ->
         frob: 'frob'
         perms: 'delete'
 
-      expect(@rtm.getAuthUrl()).toEqual("http://www.rememberthemilk.com/services/auth/?perms=delete&frob=frob&api_key=#{@api}&format=json&api_sig=#{api_sig}")
+      @rtm.getAuthUrl (url) =>
+        expect(url).toEqual("http://www.rememberthemilk.com/services/auth/?perms=delete&frob=frob&api_key=#{@api}&format=json&api_sig=#{api_sig}")
 
   describe "getFrob", ->
     beforeEach ->

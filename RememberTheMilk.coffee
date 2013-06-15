@@ -23,14 +23,13 @@ module.exports = class RememberTheMilk
     params["api_sig"] = @apiSig(params)
     params
 
-  getAuthUrl: ->
-
+  getAuthUrl: (callback) =>
     @getFrob (frob) =>
       params = @signRequest
         perms: "delete"
         frob: frob
 
-      "#{@authUrl}#{querystring.stringify(params)}"
+      callback?("#{@authUrl}#{querystring.stringify(params)}")
 
   getFrob: (callback) ->
     params = @signRequest
