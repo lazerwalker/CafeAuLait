@@ -1,3 +1,4 @@
+horaa = require 'horaa'
 RememberTheMilk = require('../RememberTheMilk')
 
 describe "RememberTheMilk", ->
@@ -20,13 +21,15 @@ describe "RememberTheMilk", ->
           c: 'c'
           a: 'a'
           b: 'b'
-
         secret = 'secret'
 
-        # md5 of 'aabbccsecret'
-        md5 = '8a082c06f5f7a29c8ccf18d8ff27eb63'
+        md5 = horaa('md5')
+        md5.hijack 'digest_s', (string) ->
+          expect(string).toEqual("aabbccsecret")
 
         @rtm = new RememberTheMilk('', secret)
-        expect(@rtm.signRequest(params)).toEqual(md5)
+        @rtm.signRequest(params)
+
+
 
 

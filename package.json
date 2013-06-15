@@ -3,5 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "md5": "latest",
+    "horaa": "latest"
   }
 }
