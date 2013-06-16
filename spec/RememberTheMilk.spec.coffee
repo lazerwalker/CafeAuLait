@@ -6,13 +6,11 @@ validateRequest = (url, expectedParams) ->
   [path, paramString] = url.split('?')
   params = querystring.parse(paramString)
 
-  success = path is "http://www.rememberthemilk.com/services/rest/"
-  success &&= params?.api_sig
+  expect(path).toEqual("http://www.rememberthemilk.com/services/rest/")
+  expect(params.api_sig).not.toBeUndefined()
 
   for key, value of expectedParams
-    success &&= params[key] is value
-
-  success
+    expect(params[key]).toEqual(value)
 
 describe "RememberTheMilk", ->
   beforeEach ->
@@ -47,11 +45,8 @@ describe "RememberTheMilk", ->
           api_key: @api
           method: "rtm.auth.getFrob"
 
-        if valid
-            response = JSON.stringify({rsp: {frob: "a valid frob"}})
-            callback(undefined, undefined, response)
-        else
-          callback("error")
+        response = JSON.stringify({rsp: {frob: "a valid frob"}})
+        callback(undefined, undefined, response)
 
     afterEach ->
       @request.restore('get')
@@ -82,11 +77,8 @@ describe "RememberTheMilk", ->
           method: "rtm.auth.getToken"
           frob: "frob"
 
-        if valid
-          response = JSON.stringify({rsp: {auth: {token: "a valid token"}}})
-          callback(undefined, undefined, response)
-        else
-          callback("error")
+        response = JSON.stringify({rsp: {auth: {token: "a valid token"}}})
+        callback(undefined, undefined, response)
 
     afterEach ->
       @request.restore('get')
@@ -99,4 +91,22 @@ describe "RememberTheMilk", ->
       @rtm.getAuthToken (token) =>
         expect(@rtm.token).toEqual(token)
 
+  describe 'get', ->
+    beforeEach ->
+      @rtm.token = 'a valid token'
+      @request = horaa('request')
+      @request.hijack 'get', (url, callback) =>
+        valid = validateRequest url,
+          api_key: @api
+          method: "rtm.tasks.getList"
+          list_id: "a list"
 
+        response = JSON.stringify({rsp: true})
+        callback(undefined, undefined, response)
+
+    afterEach ->
+      @request.restore('get')
+
+    it 'should make a request', ->
+      @rtm.get 'rtm.tasks.getList', list_id: 'a list', (response) ->
+        expect(response).toBeTruthy()

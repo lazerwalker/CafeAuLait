@@ -49,6 +49,16 @@ module.exports = class RememberTheMilk
           @token = token
           callback?(token)
 
+  get: (method, params, callback) ->
+    params["method"] = method
+    params = @_signRequest(params)
+
+    request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) =>
+      rtmResponse = JSON.parse(body).rsp
+      if err or !rtmResponse?
+        callback?(undefined, err)
+      else
+        callback?(rtmResponse)
   # Private methods
 
   _apiSig: (params) ->
