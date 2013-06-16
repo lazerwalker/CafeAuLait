@@ -92,22 +92,39 @@ describe "RememberTheMilk", ->
         expect(@rtm.token).toEqual(token)
 
   describe 'get', ->
-    beforeEach ->
-      @rtm.token = 'a valid token'
-      @request = horaa('request')
-      @request.hijack 'get', (url, callback) =>
-        valid = validateRequest url,
+    afterEach ->
+      @request.restore('get')
+
+    describe "when params are passed in", ->
+      beforeEach ->
+        @rtm.token = 'a valid token'
+        @request = horaa('request')
+        @request.hijack 'get', (url, callback) =>
+          valid = validateRequest url,
           api_key: @api
           method: "rtm.tasks.getList"
           list_id: "a list"
           auth_token: 'a valid token'
 
-        response = JSON.stringify({rsp: true})
-        callback(undefined, undefined, response)
+          response = JSON.stringify({rsp: true})
+          callback(undefined, undefined, response)
 
-    afterEach ->
-      @request.restore('get')
+      it 'should make a request', ->
+        @rtm.get 'rtm.tasks.getList', list_id: 'a list', (response) ->
+          expect(response).toBeTruthy()
 
-    it 'should make a request', ->
-      @rtm.get 'rtm.tasks.getList', list_id: 'a list', (response) ->
-        expect(response).toBeTruthy()
+    describe "when no params are passed in", ->
+      beforeEach ->
+        @rtm.token = 'a valid token'
+        @request = horaa('request')
+        @request.hijack 'get', (url, callback) =>
+          valid = validateRequest url,
+          api_key: @api
+          method: "rtm.tasks.getList"
+          auth_token: 'a valid token'
+
+          response = JSON.stringify({rsp: true})
+          callback(undefined, undefined, response)
+      it 'should make a request', ->
+        @rtm.get 'rtm.tasks.getList', (response) ->
+          expect(response).toBeTruthy()

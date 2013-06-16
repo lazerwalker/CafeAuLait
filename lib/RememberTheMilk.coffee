@@ -59,6 +59,10 @@ module.exports = class RememberTheMilk
           callback?(token)
 
   get: (method, params, callback) ->
+    if typeof params is 'function'
+      callback = params
+      params = {}
+
     params["method"] = method
     params = @_signRequest(params)
 
@@ -68,6 +72,7 @@ module.exports = class RememberTheMilk
         callback?(undefined, err)
       else
         callback?(rtmResponse)
+
   # Private methods
 
   _apiSig: (params) ->
