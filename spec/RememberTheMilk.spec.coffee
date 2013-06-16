@@ -23,6 +23,10 @@ describe "RememberTheMilk", ->
       expect(@rtm.apiKey).toEqual(@api)
       expect(@rtm.sharedSecret).toEqual(@secret)
 
+    it 'Sets the token when present', ->
+      @rtm = new RememberTheMilk(@api, @secret, 'foo')
+      expect(@rtm.token).toEqual('foo')
+
   describe "getAuthUrl", ->
     it 'should return a valid auth URL', ->
       spyOn(@rtm, "getFrob").andCallFake (callback) ->

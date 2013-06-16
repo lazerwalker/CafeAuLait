@@ -32,9 +32,16 @@ rtm.getAuthUrl (url) ->
       # At this point, the user is authenticated and can perform any actions
 ```
 
-If you have a token persisted from a previous request, you can load it into the RTM object by manually setting the `token` property, and it will be used for all future API requests.
+If you have a token persisted from a previous request, you can load it into the RTM object by passing in a token in the constructor. It will be used for all future API requests.
 
-`rtm.token = "a valid token"`
+`rtm = new RememberTheMilk(api_key, secret_key, token)`
+
+You can also manually set it after creation:
+
+```
+rtm = new RememberTheMilk(api_key, secret_key)
+rtm.token = 'a valid token'
+```
 
 ## Performing API actions
 The `get` method allows you to perform any API actions listed on https://www.rememberthemilk.com/services/api/methods/.

@@ -15,7 +15,7 @@ module.exports = class RememberTheMilk
   authUrl: "http://www.rememberthemilk.com/services/auth/?"
   restUrl: "http://www.rememberthemilk.com/services/rest/?"
 
-  constructor: (@apiKey, @sharedSecret) ->
+  constructor: (@apiKey, @sharedSecret, @token) ->
 
   getAuthUrl: (callback, opts={}) =>
     perms = opts[perms] || "delete"
