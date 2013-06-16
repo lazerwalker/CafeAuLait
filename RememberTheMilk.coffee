@@ -73,6 +73,10 @@ module.exports = class RememberTheMilk
   _signRequest: (params={}) ->
     params["api_key"] = @apiKey
     params["format"] = 'json'
+
+    if @token?
+      params["auth_token"] = @token
+
     params["api_sig"] = @_apiSig(params)
     params
 

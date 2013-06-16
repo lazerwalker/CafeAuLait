@@ -100,6 +100,7 @@ describe "RememberTheMilk", ->
           api_key: @api
           method: "rtm.tasks.getList"
           list_id: "a list"
+          auth_token: 'a valid token'
 
         response = JSON.stringify({rsp: true})
         callback(undefined, undefined, response)
