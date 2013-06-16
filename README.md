@@ -9,7 +9,7 @@ You can also just clone/download the repo; all that's required is RememberTheMil
 
 ## Getting set up
 ```
-RememberTheMilk = require('./RememberTheMilk');
+RememberTheMilk = require('RememberTheMilk');
 rtm = new RememberTheMilk(api_key, secret_key)
 ```
 
@@ -20,7 +20,7 @@ Initial authentication with the RTM api is a bit complex. For more info, see htt
 Currently, Cafe Au Lait only supports authenticating as a desktop application. Here's an example of a simple CoffeeScript command-line application that authenticates.
 
 ```
-RememberTheMilk = require('./RememberTheMilk');
+RememberTheMilk = require('RememberTheMilk');
 rtm = new RememberTheMilk(api_key, secret_key)
 rtm.getAuthUrl (url) ->
   console.log "Before continuing, you need to authenticate with Remember The Milk. Go to the following URL, allow access to the application, and then press any key in the terminal window: #{url}"
@@ -40,7 +40,7 @@ If you have a token persisted from a previous request, you can load it into the 
 The `get` method allows you to perform any API actions listed on https://www.rememberthemilk.com/services/api/methods/.
 
 ```
-RememberTheMilk = require('./RememberTheMilk');
+RememberTheMilk = require('RememberTheMilk');
 rtm = new RememberTheMilk(api_key, secret_key)
 rtm.token = 'a valid token'
 rtm.get 'rtm.lists.getList', (response) ->
