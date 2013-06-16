@@ -1,6 +1,6 @@
 horaa = require 'horaa'
 querystring = require('querystring')
-RememberTheMilk = require('../RememberTheMilk.coffee')
+RememberTheMilk = require('../lib/RememberTheMilk.coffee')
 
 validateRequest = (url, expectedParams) ->
   [path, paramString] = url.split('?')

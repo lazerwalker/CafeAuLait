@@ -11,6 +11,10 @@
   "engine": {
     "node": "*"
   },
+  "scripts": {
+    "test": "jasmine-node --coffee spec"
+  },
+  "main": "./lib/RememberTheMilk",
   "dependencies": {
     "md5": "latest",
     "horaa": "latest",
