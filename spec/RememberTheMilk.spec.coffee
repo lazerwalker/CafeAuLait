@@ -30,7 +30,7 @@ describe "RememberTheMilk", ->
       spyOn(@rtm, "getFrob").andCallFake (callback) ->
         callback('frob')
 
-      api_sig  = @rtm.apiSig
+      api_sig  = @rtm._apiSig
         api_key: @api
         format: 'json'
         frob: 'frob'

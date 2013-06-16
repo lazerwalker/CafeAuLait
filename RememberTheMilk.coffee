@@ -8,25 +8,10 @@ module.exports = class RememberTheMilk
 
   constructor: (@apiKey, @sharedSecret) ->
 
-  apiSig: (params) ->
-    keys = Object.keys(params).sort()
-    string = keys.reduce (string, key) =>
-      "#{string}#{key}#{params[key]}"
-    , ''
-
-    string = "#{@sharedSecret}#{string}"
-    md5.digest_s(string)
-
-  signRequest: (params={}) ->
-    params["api_key"] = @apiKey
-    params["format"] = 'json'
-    params["api_sig"] = @apiSig(params)
-    params
-
   getAuthUrl: (callback, opts={}) =>
     perms = opts[perms] || "delete"
     @getFrob (frob) =>
-      params = @signRequest
+      params = @_signRequest
         perms: perms
         frob: frob
 
@@ -37,7 +22,7 @@ module.exports = class RememberTheMilk
       callback?(@frob)
       return
 
-    params = @signRequest
+    params = @_signRequest
       method: "rtm.auth.getFrob"
     request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) =>
       frob = JSON.parse(body).rsp.frob
@@ -52,7 +37,7 @@ module.exports = class RememberTheMilk
       if error
         callback(undefined, error)
         return
-      params = @signRequest
+      params = @_signRequest
         method: "rtm.auth.getToken"
         frob: frob
 
@@ -64,4 +49,20 @@ module.exports = class RememberTheMilk
           @token = token
           callback?(token)
 
+  # Private methods
+
+  _apiSig: (params) ->
+    keys = Object.keys(params).sort()
+    string = keys.reduce (string, key) =>
+      "#{string}#{key}#{params[key]}"
+    , ''
+
+    string = "#{@sharedSecret}#{string}"
+    md5.digest_s(string)
+
+  _signRequest: (params={}) ->
+    params["api_key"] = @apiKey
+    params["format"] = 'json'
+    params["api_sig"] = @_apiSig(params)
+    params
 
