@@ -10,7 +10,7 @@
 md5 = require 'md5'
 request = require 'request'
 querystring = require 'querystring'
-console.log "HIH"
+
 module.exports = class RememberTheMilk
   authUrl: "http://www.rememberthemilk.com/services/auth/?"
   restUrl: "http://www.rememberthemilk.com/services/rest/?"

@@ -1,9 +1,8 @@
 {
   "name": "cafe-au-lait",
   "author": "Michael Walker <michael@lazerwalker.com>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A node.js library for the to-do list software Remember the Milk",
-  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/lazerwalker/CafeAuLait.git"
