@@ -23,20 +23,45 @@ module.exports = class RememberTheMilk
     params["api_sig"] = @apiSig(params)
     params
 
-  getAuthUrl: (callback) =>
+  getAuthUrl: (callback, opts={}) =>
+    perms = opts[perms] || "delete"
     @getFrob (frob) =>
       params = @signRequest
-        perms: "delete"
+        perms: perms
         frob: frob
 
       callback?("#{@authUrl}#{querystring.stringify(params)}")
 
   getFrob: (callback) ->
+    if @frob?
+      callback?(@frob)
+      return
+
     params = @signRequest
       method: "rtm.auth.getFrob"
-    request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) ->
-      if err
+    request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) =>
+      frob = JSON.parse(body).rsp.frob
+      if err or !frob
         callback?(undefined, err)
       else
-        frob = response?.rsp?.frob
+        @frob = frob
         callback?(frob)
+
+  getAuthToken: (callback) ->
+    @getFrob (frob, error) =>
+      if error
+        callback(undefined, error)
+        return
+      params = @signRequest
+        method: "rtm.auth.getToken"
+        frob: frob
+
+      request.get "#{@restUrl}#{querystring.stringify(params)}", (err, response, body) =>
+        token = JSON.parse(body).rsp.auth.token
+        if err or !token?
+          callback?(undefined, err)
+        else
+          @token = token
+          callback?(token)
+
+
