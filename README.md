@@ -2,7 +2,10 @@
 Cafe Au Lait is a Node.js [Remember the Milk](rememberthemilk.com) library written in CoffeeScript.
 
 ## Installation
-Clone or download this repo in a location accessible by your codebase. You'll need both RememberTheMilk.coffee/js (your pick) and this repo's node_modules. When things are a bit more stable, I'll set it up as a proper npm package.
+You can install Cafe Au Lait via NPM:
+`npm install cafe-au-lait` (or similar in your package.json file).
+
+You can also just clone/download the repo; all that's required is RememberTheMilk.coffee/.js and the npm dependencies in the node_modules directory.
 
 ## Getting set up
 ```
