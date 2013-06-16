@@ -1,3 +1,12 @@
+# Cafe Au Lait
+# A node.js Remember The Milk library
+#
+# (C)2013 Michael Walker (michael@lazerwalker.com)
+# Licensed under the MIT License
+#
+# The most recent copy of this code, as well as license information
+# can be found at http://github.com/lazerwalker/CafeAuLait
+
 md5 = require 'md5'
 request = require 'request'
 querystring = require 'querystring'
