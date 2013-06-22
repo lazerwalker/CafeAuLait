@@ -5,7 +5,7 @@ Cafe Au Lait is a Node.js [Remember the Milk](rememberthemilk.com) library writt
 You can install Cafe Au Lait via NPM:
 `npm install cafe-au-lait` (or similar in your package.json file).
 
-You can also just clone/download the repo; all that's required is RememberTheMilk.coffee/.js and the npm dependencies in the node_modules directory.
+You can also clone/download the repo; all that's required is RememberTheMilk.coffee/.js and the npm dependencies in the node_modules directory.
 
 ## Getting set up
 ```
@@ -23,13 +23,14 @@ Currently, Cafe Au Lait only supports authenticating as a desktop application. H
 RememberTheMilk = require('cafe-au-lait');
 rtm = new RememberTheMilk(api_key, secret_key)
 rtm.getAuthUrl (url) ->
-  console.log "Before continuing, you need to authenticate with Remember The Milk. Go to the following URL, allow access to the application, and then press any key in the terminal window: #{url}"
-
+  console.log "Before continuing, you need to authenticate with Remember The Milk."
+  console.log "Go to the following URL, allow access, and then press any key in this terminal window:"
+  console.log url
+  
   stdin.resume()
-
   stdin.on 'data', ->
     rtm.getAuthToken (token) ->
-      # At this point, the user is authenticated and can perform any actions
+      # At this point, the user is authenticated and can perform any action
 ```
 
 If you have a token persisted from a previous request, you can load it into the RTM object by passing in a token in the constructor. It will be used for all future API requests.
@@ -68,10 +69,12 @@ rtm.get 'rtm.lists.getList', (response) ->
 ```
 
 ## Warning
-Consider this alpha software; use at your own risk. There's very little error handling code. I'll hopefully have the time to make this more robust in the future, including adding in more domain knowledge of the API objects themselves.
+Consider this alpha software; use at your own risk. In particular, there is very little (read: no) error handling code. 
 
 ## Contributing
-If you want to fork this and jam on it, feel free. There's some basic unit test coverage, and I'll happily respond to any questions you have.
+If you want to fork this and jam on it, feel free to shoot me a pull request. I'll happily respond to any questions you may have as well.
+
+There's basic test coverage via jasmine-node. To run the tests, execute `npm test` from the root directory.
 
 ## License
 Cafe Au Lait is licensed under the MIT License
