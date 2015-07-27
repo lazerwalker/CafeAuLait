@@ -15,8 +15,8 @@
   },
   "main": "./lib/RememberTheMilk",
   "dependencies": {
-    "md5": "latest",
-    "horaa": "latest",
-    "request": "latest"
+    "horaa": "^0.1.2alpha",
+    "md5": "^1.0.0",
+    "request": "^2.60.0"
   }
 }
