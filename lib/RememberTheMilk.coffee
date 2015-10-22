@@ -12,8 +12,8 @@ request = require 'request'
 querystring = require 'querystring'
 
 module.exports = class RememberTheMilk
-  authUrl: "http://api.rememberthemilk.com/services/auth/?"
-  restUrl: "http://api.rememberthemilk.com/services/rest/?"
+  authUrl: "https://api.rememberthemilk.com/services/auth/?"
+  restUrl: "https://api.rememberthemilk.com/services/rest/?"
 
   constructor: (@apiKey, @sharedSecret, @token) ->
 

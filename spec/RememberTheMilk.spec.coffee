@@ -6,7 +6,7 @@ validateRequest = (url, expectedParams) ->
   [path, paramString] = url.split('?')
   params = querystring.parse(paramString)
 
-  expect(path).toEqual("http://api.rememberthemilk.com/services/rest/")
+  expect(path).toEqual("https://api.rememberthemilk.com/services/rest/")
   expect(params.api_sig).not.toBeUndefined()
 
   for key, value of expectedParams
@@ -39,7 +39,7 @@ describe "RememberTheMilk", ->
         perms: 'delete'
 
       @rtm.getAuthUrl (url) =>
-        expect(url).toEqual("http://api.rememberthemilk.com/services/auth/?perms=delete&frob=frob&api_key=#{@api}&format=json&api_sig=#{api_sig}")
+        expect(url).toEqual("https://api.rememberthemilk.com/services/auth/?perms=delete&frob=frob&api_key=#{@api}&format=json&api_sig=#{api_sig}")
 
   describe "getFrob", ->
     beforeEach ->
